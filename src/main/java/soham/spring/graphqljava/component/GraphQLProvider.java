@@ -11,14 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import soham.spring.graphqljava.datafetcher.ProviderDataFetcher;
 import soham.spring.graphqljava.datafetcher.ServiceDataFetcher;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 

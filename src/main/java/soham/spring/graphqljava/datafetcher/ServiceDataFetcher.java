@@ -15,9 +15,7 @@ public class ServiceDataFetcher {
 
 
     public DataFetcher getAllServices() {
-        return dataFetchingEnvironment -> {
-            return serviceRepository.findAll();
-        };
+        return dataFetchingEnvironment -> serviceRepository.findAll();
     }
 
     public DataFetcher getServiceById() {

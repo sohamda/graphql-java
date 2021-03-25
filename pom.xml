@@ -13,9 +13,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-graphql-java</name>
 	<description>Spring Boot project to demonstrate GraphQL with graphql-java</description>
+
 	<properties>
 		<java.version>11</java.version>
+		<graphql-java-version>16.2</graphql-java-version>
+		<graphql-java-spring-boot-starter-webmvc-version>2.0</graphql-java-spring-boot-starter-webmvc-version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -49,14 +53,13 @@
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java</artifactId>
-			<version>16.2</version>
+			<version>${graphql-java-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-spring-boot-starter-webmvc</artifactId>
-			<version>2.0</version>
+			<version>${graphql-java-spring-boot-starter-webmvc-version}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

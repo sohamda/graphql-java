@@ -3,10 +3,7 @@ package soham.spring.graphqljava.datafetcher;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import soham.spring.graphqljava.entity.Provider;
-import soham.spring.graphqljava.entity.Service;
 import soham.spring.graphqljava.repository.ProviderRepository;
-import soham.spring.graphqljava.repository.ServiceRepository;
 
 @Component
 public class ProviderDataFetcher {
@@ -15,9 +12,7 @@ public class ProviderDataFetcher {
     ProviderRepository providerRepository;
 
     public DataFetcher getAllProviders() {
-        return dataFetchingEnvironment -> {
-            return providerRepository.findAll();
-        };
+        return dataFetchingEnvironment -> providerRepository.findAll();
     }
 
     public DataFetcher getProviderById() {
