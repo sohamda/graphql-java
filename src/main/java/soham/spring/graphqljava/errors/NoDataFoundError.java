@@ -4,21 +4,22 @@ import graphql.ErrorClassification;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class NoDataFoundError extends RuntimeException implements GraphQLError {
 
-    private String message;
     private String errorCode;
 
     public NoDataFoundError(String message, String errorCode) {
-        this.message = message;
+        super(message);
         this.errorCode = errorCode;
     }
 
     @Override
     public String getMessage() {
-        return this.errorCode + " : " + this.message;
+        return this.errorCode + " : " + super.getMessage();
     }
 
     @Override
@@ -29,5 +30,10 @@ public class NoDataFoundError extends RuntimeException implements GraphQLError {
     @Override
     public ErrorClassification getErrorType() {
         return null;
+    }
+
+    @Override
+    public Map<String, Object> getExtensions() {
+        return Collections.singletonMap("errorCode", this.errorCode);
     }
 }
