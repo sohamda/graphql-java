@@ -2,6 +2,7 @@ package soham.spring.graphqljava.datafetcher;
 
 import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetcher;
+import org.dataloader.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import soham.spring.graphqljava.entity.Provider;
@@ -23,11 +24,6 @@ public class ServiceDataFetcher {
         return dataFetchingEnvironment -> {
 
             List<Service> services = serviceRepository.findAll();
-
-            if(services.isEmpty()) {
-                throw new NoDataFoundError("No Services found", "SER-001");
-            }
-
             return DataFetcherResult.newResult().data(services).build();
         };
     }
@@ -48,19 +44,16 @@ public class ServiceDataFetcher {
     public DataFetcher getProviderForService() {
         return dataFetchingEnvironment -> {
             Service service = dataFetchingEnvironment.getSource();
-            return service.getProvider();
+
+            DataLoader<Integer, Provider> providerDataLoader = dataFetchingEnvironment.getDataLoader("providers");
+            return providerDataLoader.load(service.getProviderId());
         };
     }
 
     public DataFetcher getServicesForProvider() {
         return dataFetchingEnvironment -> {
             Provider provider = dataFetchingEnvironment.getSource();
-            List<Service> services = serviceRepository.findAllByProvider(provider);
-
-            if(services.isEmpty()) {
-                throw new NoDataFoundError("No Services found", "SER-001");
-            }
-
+            List<Service> services = serviceRepository.findAllByProviderId(provider.getId());
             return DataFetcherResult.newResult().data(services).build();
         };
     }

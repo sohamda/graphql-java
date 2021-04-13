@@ -1,8 +1,8 @@
 type Query {
     services: [Service]
-    serviceById(id: ID): Service
+    serviceById(id: ID!): Service
     providers: [Provider]
-    providerById(id: ID): Provider
+    providerById(id: ID!): Provider
 }
 
 type Provider {

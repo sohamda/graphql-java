@@ -6,6 +6,9 @@ import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import lombok.extern.slf4j.Slf4j;
+import org.dataloader.DataLoader;
+import org.dataloader.DataLoaderRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
 @Component
+@Slf4j
 public class GraphQLProvider {
 
     private GraphQL graphQL;
@@ -33,6 +37,14 @@ public class GraphQLProvider {
     public GraphQL graphQL() {
         return graphQL;
     }
+
+    @Bean
+    public DataLoaderRegistry dataLoaderRegistry() {
+        DataLoaderRegistry dataLoaderRegistry = new DataLoaderRegistry();
+        dataLoaderRegistry.register("providers", DataLoader.newDataLoader(providerDataFetcher.providerBatchLoader()));
+        return dataLoaderRegistry;
+    }
+
 
     @PostConstruct
     public void init() throws IOException {
@@ -62,5 +74,4 @@ public class GraphQLProvider {
                         .dataFetcher("services", serviceDataFetcher.getServicesForProvider()))
                 .build();
     }
-
 }
