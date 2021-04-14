@@ -37,8 +37,8 @@ public class ProviderDataFetcher {
 
     public DataFetcher getProviderById() {
         return dataFetchingEnvironment -> {
-            Integer providerId = dataFetchingEnvironment.getArgument("id");
-            Optional<Provider> provider =  providerRepository.findById(providerId);
+            String providerId = dataFetchingEnvironment.getArgument("id");
+            Optional<Provider> provider =  providerRepository.findById(Integer.parseInt(providerId));
 
             if(provider.isEmpty()) {
                 throw new NoDataFoundError("No Provider found", "PRV-002");
