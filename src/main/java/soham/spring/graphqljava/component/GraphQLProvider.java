@@ -63,6 +63,9 @@ public class GraphQLProvider {
 
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
+                .type(newTypeWiring("Mutation")
+                        .dataFetcher("addService", serviceDataFetcher.addService())
+                        .dataFetcher("addProvider", providerDataFetcher.addProvider()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("services", serviceDataFetcher.getAllServices())
                         .dataFetcher("serviceById", serviceDataFetcher.getServiceById())

@@ -7,37 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import soham.spring.graphqljava.entity.Provider;
 import soham.spring.graphqljava.entity.Service;
-import soham.spring.graphqljava.errors.NoDataFoundError;
-import soham.spring.graphqljava.repository.ServiceRepository;
-
-import java.util.List;
-import java.util.Optional;
+import soham.spring.graphqljava.service.ServicesService;
 
 @Component
 public class ServiceDataFetcher {
 
     @Autowired
-    ServiceRepository serviceRepository;
+    ServicesService servicesService;
 
 
     public DataFetcher getAllServices() {
         return dataFetchingEnvironment -> {
-
-            List<Service> services = serviceRepository.findAll();
-            return DataFetcherResult.newResult().data(services).build();
+            return DataFetcherResult.newResult().data(servicesService.findAll()).build();
         };
     }
 
     public DataFetcher getServiceById() {
         return dataFetchingEnvironment -> {
             String serviceId = dataFetchingEnvironment.getArgument("id");
-            Optional<Service> service = serviceRepository.findById(Integer.parseInt(serviceId));
-
-            if(service.isEmpty()) {
-                throw new NoDataFoundError("No Service found", "SER-002");
-            }
-
-            return DataFetcherResult.newResult().data(service).build();
+            return DataFetcherResult.newResult().data(servicesService.findById(serviceId)).build();
         };
     }
 
@@ -53,8 +41,17 @@ public class ServiceDataFetcher {
     public DataFetcher getServicesForProvider() {
         return dataFetchingEnvironment -> {
             Provider provider = dataFetchingEnvironment.getSource();
-            List<Service> services = serviceRepository.findAllByProviderId(provider.getId());
-            return DataFetcherResult.newResult().data(services).build();
+            return DataFetcherResult.newResult().data(servicesService.findAllByProviderId(provider.getId())).build();
+        };
+    }
+
+    public DataFetcher addService() {
+        return dataFetchingEnvironment -> {
+            String name = dataFetchingEnvironment.getArgument("name");
+            String description = dataFetchingEnvironment.getArgument("description");
+            String providerId = dataFetchingEnvironment.getArgument("providerId");
+
+            return DataFetcherResult.newResult().data(servicesService.addService(name, description, providerId)).build();
         };
     }
 }
