@@ -41,7 +41,8 @@ public class GraphQLProvider {
     @Bean
     public DataLoaderRegistry dataLoaderRegistry() {
         DataLoaderRegistry dataLoaderRegistry = new DataLoaderRegistry();
-        dataLoaderRegistry.register("providers", DataLoader.newDataLoader(providerDataFetcher.providerBatchLoader()));
+        dataLoaderRegistry.register("providers",
+                DataLoader.newDataLoader(providerDataFetcher.providerBatchLoader()));
         return dataLoaderRegistry;
     }
 

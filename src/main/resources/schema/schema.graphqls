@@ -16,15 +16,15 @@ type Mutation {
 }
 
 type Provider {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     description: String
     services: [Service]
 }
 
 type Service {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     description: String
     provider: Provider
 }

@@ -32,7 +32,8 @@ public class ProviderDataFetcher {
     }
 
     public BatchLoader<Integer, Provider> providerBatchLoader() {
-        final BatchLoader<Integer, Provider> batchLoader = keys -> CompletableFuture.supplyAsync(() -> providerService.findByIdIn(keys));
+        final BatchLoader<Integer, Provider> batchLoader = keys ->
+                CompletableFuture.supplyAsync(() -> providerService.findByIdIn(keys));
         return batchLoader;
     }
 
