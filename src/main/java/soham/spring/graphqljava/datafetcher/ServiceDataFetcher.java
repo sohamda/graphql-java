@@ -1,6 +1,5 @@
 package soham.spring.graphqljava.datafetcher;
 
-import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetcher;
 import org.dataloader.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,9 @@ import soham.spring.graphqljava.entity.Provider;
 import soham.spring.graphqljava.entity.Service;
 import soham.spring.graphqljava.service.ServicesService;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Component
 public class ServiceDataFetcher {
 
@@ -16,20 +18,18 @@ public class ServiceDataFetcher {
     ServicesService servicesService;
 
 
-    public DataFetcher getAllServices() {
-        return dataFetchingEnvironment -> {
-            return DataFetcherResult.newResult().data(servicesService.findAll()).build();
-        };
+    public DataFetcher<List<Service>> getAllServices() {
+        return dataFetchingEnvironment -> servicesService.findAll();
     }
 
-    public DataFetcher getServiceById() {
+    public DataFetcher<Service> getServiceById() {
         return dataFetchingEnvironment -> {
             String serviceId = dataFetchingEnvironment.getArgument("id");
-            return DataFetcherResult.newResult().data(servicesService.findById(serviceId)).build();
+            return servicesService.findById(serviceId);
         };
     }
 
-    public DataFetcher getProviderForService() {
+    public DataFetcher<CompletableFuture<Provider>> getProviderForService() {
         return dataFetchingEnvironment -> {
             Service service = dataFetchingEnvironment.getSource();
 
@@ -38,20 +38,20 @@ public class ServiceDataFetcher {
         };
     }
 
-    public DataFetcher getServicesForProvider() {
+    public DataFetcher<List<Service>> getServicesForProvider() {
         return dataFetchingEnvironment -> {
             Provider provider = dataFetchingEnvironment.getSource();
-            return DataFetcherResult.newResult().data(servicesService.findAllByProviderId(provider.getId())).build();
+            return servicesService.findAllByProviderId(provider.getId());
         };
     }
 
-    public DataFetcher addService() {
+    public DataFetcher<Service> addService() {
         return dataFetchingEnvironment -> {
             String name = dataFetchingEnvironment.getArgument("name");
             String description = dataFetchingEnvironment.getArgument("description");
             String providerId = dataFetchingEnvironment.getArgument("providerId");
 
-            return DataFetcherResult.newResult().data(servicesService.addService(name, description, providerId)).build();
+            return servicesService.addService(name, description, providerId);
         };
     }
 }

@@ -7,7 +7,7 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import lombok.extern.slf4j.Slf4j;
-import org.dataloader.DataLoader;
+import org.dataloader.DataLoaderFactory;
 import org.dataloader.DataLoaderRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class GraphQLProvider {
     public DataLoaderRegistry dataLoaderRegistry() {
         DataLoaderRegistry dataLoaderRegistry = new DataLoaderRegistry();
         dataLoaderRegistry.register("providers",
-                DataLoader.newDataLoader(providerDataFetcher.providerBatchLoader()));
+                DataLoaderFactory.newDataLoader(providerDataFetcher.providerBatchLoader()));
         return dataLoaderRegistry;
     }
 
